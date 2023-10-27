@@ -1,3 +1,5 @@
+from slugify import slugify
+from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import chess.pgn
@@ -69,49 +71,53 @@ def _extracted_from_play_7(board: chess.Board, nb_moves: int, game_moves: list) 
     return data
 
 
-def generate_file_name(game: chess.pgn.Game) -> str:
+def generate_file_name(game: chess.pgn.Game, count: int) -> str:
     b = game.headers['Black'].replace(', ', '-').lower()
     w = game.headers['White'].replace(', ', '-').lower()
     r = game.headers['Result']
     d = game.headers['Date'].split('/')[0]
-    return f"{b}-{w}-{r}-{d}"
+    c = str(count).zfill(4)
+    return slugify(f"{c}-{b}-{w}-{r}-{d}")
 
 
-def process_game(game: list, player: str):
-    global data
-    data = []
+def process_game(game: list, player: str, count: int):
+    try:
+        global data
+        data = []
 
-    game = chess.pgn.read_game(list_to_pgn(lines=game))
-    fname = generate_file_name(game=game)
+        game = chess.pgn.read_game(list_to_pgn(lines=game))
+        fname = generate_file_name(game=game, count=count)
 
-    white_won = {'1-0': True, '1/2-1/2': None,
-                 '0-1': False}[game.headers['Result']]
+        white_won = {'1-0': True, '1/2-1/2': None, '0-1': False}[game.headers['Result']]
 
-    if white_won is None:
-        return
+        if white_won is None:
+            return False
 
-    game_moves = list(game.mainline_moves())
-    board = game.board()
+        game_moves = list(game.mainline_moves())
+        board = game.board()
 
-    play(board, game_moves=game_moves, white_won=white_won)
+        play(board, game_moves=game_moves, white_won=white_won)
 
-    board_feature_names = chess.SQUARE_NAMES
-    move_from_feature_names = [
-        f'from_{square}' for square in chess.SQUARE_NAMES]
-    move_to_feature_names = [f'to_{square}' for square in chess.SQUARE_NAMES]
+        board_feature_names = chess.SQUARE_NAMES
+        move_from_feature_names = [
+            f'from_{square}' for square in chess.SQUARE_NAMES]
+        move_to_feature_names = [f'to_{square}' for square in chess.SQUARE_NAMES]
 
-    columns = (
-        board_feature_names
-        + move_from_feature_names
-        + move_to_feature_names
-        + ['good_move']
-    )
+        columns = (
+            board_feature_names
+            + move_from_feature_names
+            + move_to_feature_names
+            + ['good_move']
+        )
 
-    if os.path.exists(f'./data/{player}') == False:
-        os.mkdir(f'./data/{player}')
+        if os.path.exists(f'./data/{player}') == False:
+            os.mkdir(f'./data/{player}')
 
-    df = pd.DataFrame(data=data, columns=columns)
-    df.to_csv(f'./data/{player}/{fname}.csv', index=False)
+        df = pd.DataFrame(data=data, columns=columns)
+        df.to_csv(f'./data/games/{player}/{fname}.csv', index=False)
+        return True
+    except Exception as ex:
+        return False
 
 
 def read_pgn_games(path: str) -> list:
@@ -139,7 +145,14 @@ if __name__ == '__main__':
 
     print(f"Quantidade de jogos: {len(pgns)}")
 
-    for pgn in pgns:
-        process_game(game=pgn, player='garry-kasparov')
+    processed = 0
 
-    print("DONE!!!")
+    pbar = tqdm(total=len(pgns))
+    for i, pgn in enumerate(pgns):
+        is_valid = process_game(game=pgn, player='garry-kasparov', count=i+1)
+        if is_valid:
+            processed+=1
+        pbar.update(1)
+    pbar.close()
+
+    print(f"Quantidade de jogos processados com sucesso: {processed}\nDONE!!!")

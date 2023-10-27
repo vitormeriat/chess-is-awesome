@@ -88,7 +88,8 @@ def process_game(game: list, player: str, count: int):
         game = chess.pgn.read_game(list_to_pgn(lines=game))
         fname = generate_file_name(game=game, count=count)
 
-        white_won = {'1-0': True, '1/2-1/2': None, '0-1': False}[game.headers['Result']]
+        white_won = {'1-0': True, '1/2-1/2': None,
+                     '0-1': False}[game.headers['Result']]
 
         if white_won is None:
             return False
@@ -101,7 +102,8 @@ def process_game(game: list, player: str, count: int):
         board_feature_names = chess.SQUARE_NAMES
         move_from_feature_names = [
             f'from_{square}' for square in chess.SQUARE_NAMES]
-        move_to_feature_names = [f'to_{square}' for square in chess.SQUARE_NAMES]
+        move_to_feature_names = [
+            f'to_{square}' for square in chess.SQUARE_NAMES]
 
         columns = (
             board_feature_names
@@ -110,8 +112,8 @@ def process_game(game: list, player: str, count: int):
             + ['good_move']
         )
 
-        if os.path.exists(f'./data/{player}') == False:
-            os.mkdir(f'./data/{player}')
+        if os.path.exists(f'./data/games/{player}') == False:
+            os.makedirs(f'./data/games/{player}')
 
         df = pd.DataFrame(data=data, columns=columns)
         df.to_csv(f'./data/games/{player}/{fname}.csv', index=False)
@@ -151,8 +153,8 @@ if __name__ == '__main__':
     for i, pgn in enumerate(pgns):
         is_valid = process_game(game=pgn, player='garry-kasparov', count=i+1)
         if is_valid:
-            processed+=1
+            processed += 1
         pbar.update(1)
     pbar.close()
 
-    print(f"Quantidade de jogos processados com sucesso: {processed}\nDONE!!!")
+    print(f"\nQuantidade de jogos processados com sucesso: {processed}\nDONE!!!")

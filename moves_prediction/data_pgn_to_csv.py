@@ -157,4 +157,5 @@ if __name__ == '__main__':
         pbar.update(1)
     pbar.close()
 
-    print(f"\nQuantidade de jogos processados com sucesso: {processed}\nDONE!!!")
+    print(
+        f"\nQuantidade de jogos processados com sucesso: {processed}\nDONE!!!")

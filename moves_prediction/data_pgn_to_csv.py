@@ -28,6 +28,8 @@ def get_board_features(board: chess.Board):
 
 
 def get_move_features(move: chess.Move):
+    """
+    """
     from_ = np.zeros(64)
     to_ = np.zeros(64)
     from_[move.from_square] = 1

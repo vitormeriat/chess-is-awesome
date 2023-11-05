@@ -29,6 +29,12 @@ def import_data():
     print('X_train shape:', X_train.shape)
     print('y_train shape:', y_train.shape)
 
+    # Convert the dataset to PyTorch tensors
+    X_train = torch.from_numpy(X_train).float()
+    y_train = torch.from_numpy(y_train).long()
+
+    return X_train, y_train
+
 
 class ChessCNN(nn.Module):
     """
@@ -71,12 +77,7 @@ class ChessCNN(nn.Module):
 
 
 # Load the dataset
-X_train = np.load('X_train.npy')
-y_train = np.load('y_train.npy')
-
-# Convert the dataset to PyTorch tensors
-X_train = torch.from_numpy(X_train).float()
-y_train = torch.from_numpy(y_train).long()
+X_train, y_train = import_data()
 
 # Define the model and optimizer
 model = ChessCNN()

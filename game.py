@@ -7,7 +7,7 @@ class ChessGame:
     - current_player (str): The current player ('white' or 'black').
     - game_over (bool): Flag indicating if the game is over.
     - winner (str): The winner of the game ('white', 'black', or 'draw').
- 
+
     Methods:
     - play(): Start the chess game.
     - make_move(move: str): Make a move on the chess board.
@@ -17,7 +17,7 @@ class ChessGame:
     - switch_player(): Switch to the next player.
     - print_board(): Print the current state of the chess board.
     """
- 
+
     def __init__(self):
         """
         Initialize the chess game.
@@ -35,29 +35,31 @@ class ChessGame:
         self.current_player = 'white'
         self.game_over = False
         self.winner = None
- 
+
     def play(self):
         """
         Start the chess game.
         """
         print("Welcome to Chess!")
         print("Type 'quit' to exit the game.")
- 
+
         while not self.game_over:
             self.print_board()
-            move = input(f"{self.current_player.capitalize()} player, enter your move: ")
- 
+            move = input(
+                f"{self.current_player.capitalize()} player, enter your move: ")
+
             if move.lower() == 'quit':
                 self.game_over = True
                 print("Game over.")
                 break
- 
+
             if self.is_valid_move(move):
                 self.make_move(move)
                 if self.is_checkmate():
                     self.game_over = True
                     self.winner = self.current_player
-                    print(f"Checkmate! {self.winner.capitalize()} player wins.")
+                    print(
+                        f"Checkmate! {self.winner.capitalize()} player wins.")
                 elif self.is_stalemate():
                     self.game_over = True
                     self.winner = 'draw'
@@ -66,11 +68,11 @@ class ChessGame:
                     self.switch_player()
             else:
                 print("Invalid move. Try again.")
- 
+
     def make_move(self, move: str):
         """
         Make a move on the chess board.
- 
+
         Args:
         - move (str): The move to be made in algebraic notation (e.g. 'e2e4').
         """
@@ -78,17 +80,17 @@ class ChessGame:
         start_row = 8 - int(move[1])
         end_col = ord(move[2]) - ord('a')
         end_row = 8 - int(move[3])
- 
+
         self.board[end_row][end_col] = self.board[start_row][start_col]
         self.board[start_row][start_col] = ' '
- 
+
     def is_valid_move(self, move: str) -> bool:
         """
         Check if a move is valid.
- 
+
         Args:
         - move (str): The move to be checked in algebraic notation (e.g. 'e2e4').
- 
+
         Returns:
         - bool: True if the move is valid, False otherwise.
         """
@@ -96,17 +98,17 @@ class ChessGame:
         start_row = 8 - int(move[1])
         end_col = ord(move[2]) - ord('a')
         end_row = 8 - int(move[3])
- 
+
         piece = self.board[start_row][start_col]
- 
+
         # Check if the piece belongs to the current player
         if (self.current_player == 'white' and piece.islower()) or (self.current_player == 'black' and piece.isupper()):
             return False
- 
+
         # Check if the move is within the bounds of the board
         if not (0 <= start_col <= 7 and 0 <= start_row <= 7 and 0 <= end_col <= 7 and 0 <= end_row <= 7):
             return False
- 
+
         # Check if the move is valid for the piece
         if piece.lower() == 'p':
             # Pawn move
@@ -141,35 +143,35 @@ class ChessGame:
                             return False
                 return True
         # Add code for other pieces (e.g. knight, bishop, queen, king) here
- 
+
         return False
- 
+
     def is_checkmate(self) -> bool:
         """
         Check if the current player is in checkmate.
- 
+
         Returns:
         - bool: True if the current player is in checkmate, False otherwise.
         """
         # Add code to check for checkmate here
         return False
- 
+
     def is_stalemate(self) -> bool:
         """
         Check if the game is in stalemate.
- 
+
         Returns:
         - bool: True if the game is in stalemate, False otherwise.
         """
         # Add code to check for stalemate here
         return False
- 
+
     def switch_player(self):
         """
         Switch to the next player.
         """
         self.current_player = 'black' if self.current_player == 'white' else 'white'
- 
+
     def print_board(self):
         """
         Print the current state of the chess board.
@@ -180,6 +182,7 @@ class ChessGame:
             print(f"{8 - row} |{' '.join(self.board[row])}|")
         print("  -----------------")
         print("   a b c d e f g h")
+
 
 chess = ChessGame()
 chess.play()

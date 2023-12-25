@@ -17,6 +17,7 @@ tqdm = "^4.66.1"
 python-slugify = "^8.0.1"
 chess = "^1.10.0"
 matplotlib = "^3.8.1"
+py-cpuinfo = "^9.0.0"
 
 [build-system]
 requires = ["poetry-core"]

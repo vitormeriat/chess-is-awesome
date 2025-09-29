@@ -168,3 +168,6 @@ site
 /data/games/
 
 .DS_Store
+
+
+chess-gnn/data/pgn/*.pgn

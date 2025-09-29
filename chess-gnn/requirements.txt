@@ -1,0 +1,46 @@
+# Core dependencies
+torch>=2.0.0
+torch-geometric>=2.3.0
+torch-scatter>=2.1.0
+torch-sparse>=0.6.17
+torch-cluster>=1.6.1
+
+# Chess and data processing
+chess>=1.9.4
+python-chess>=1.999
+pandas>=1.5.0
+numpy>=1.24.0
+scipy>=1.10.0
+
+# Graph analysis
+networkx>=3.0
+igraph>=0.10.0
+graph-tool>=2.45
+
+# Visualization
+matplotlib>=3.6.0
+seaborn>=0.12.0
+plotly>=5.15.0
+graphviz>=0.20.0
+pyvis>=0.3.0
+
+# Jupyter and notebooks
+jupyter>=1.0.0
+ipywidgets>=8.0.0
+jupyter-contrib-nbextensions>=0.7.0
+
+# Machine learning utilities
+scikit-learn>=1.2.0
+tqdm>=4.64.0
+wandb>=0.15.0
+
+# Data handling
+h5py>=3.8.0
+pickle5>=0.0.12
+joblib>=1.2.0
+
+# Development tools
+pytest>=7.2.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0

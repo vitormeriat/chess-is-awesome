@@ -4,20 +4,32 @@ version = "0.1.0"
 description = ""
 authors = ["Vitor Meriat <vitormeriat@gmail.com>"]
 readme = "README.md"
-packages = [{include = "chess_is_awesome"}]
 
 [tool.poetry.dependencies]
-python = "^3.9"
-
-
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.26.0"
-pytest = "^7.4.3"
-tqdm = "^4.66.1"
-python-slugify = "^8.0.1"
-chess = "^1.10.0"
-matplotlib = "^3.8.1"
+python = "^3.13"
+chess = "^1.11.2"
+tqdm = "^4.67.1"
 py-cpuinfo = "^9.0.0"
+matplotlib = "^3.10.6"
+pytest = "^8.4.2"
+ipykernel = "^6.30.1"
+python-chess = "^1.999"
+pandas = "^2.3.2"
+numpy = "^2.3.3"
+scipy = "^1.16.2"
+networkx = "^3.5"
+igraph = "^0.11.9"
+seaborn = "^0.13.2"
+plotly = "^6.3.0"
+graphviz = "^0.21"
+pyvis = "^0.3.2"
+scikit-learn = "^1.7.2"
+wandb = "^0.22.0"
+h5py = "^3.14.0"
+joblib = "^1.5.2"
+torch-geometric = "^2.6.1"
+torch = {url = "https://download.pytorch.org/whl/cpu-cxx11-abi/torch-2.6.0%2Bcpu.cxx11.abi-cp313-cp313-linux_x86_64.whl"}
+
 
 [build-system]
 requires = ["poetry-core"]
